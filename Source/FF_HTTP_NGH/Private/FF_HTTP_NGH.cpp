@@ -7,7 +7,7 @@
 
 void FFF_HTTP_NGHModule::StartupModule()
 {
-#ifdef _WIN64
+#if defined(_WIN64) && NGHTTP2_SHARED == 1
 
 	const FString BasePluginDir = IPluginManager::Get().FindPlugin("FF_HTTP_NGH")->GetBaseDir();
 	const FString Path_realsense2 = FPaths::Combine(*BasePluginDir, TEXT("Source/ff_nghttp2/Win64/lib/nghttp2.dll"));
@@ -29,7 +29,7 @@ void FFF_HTTP_NGHModule::StartupModule()
 
 void FFF_HTTP_NGHModule::ShutdownModule()
 {
-#ifdef _WIN64
+#if defined(_WIN64) && NGHTTP2_SHARED == 1
 
 	FPlatformProcess::FreeDllHandle(this->Handle_nghttp2);
 	this->Handle_nghttp2 = nullptr;

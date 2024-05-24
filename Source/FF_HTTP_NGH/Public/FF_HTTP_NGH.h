@@ -4,6 +4,8 @@
 
 #include "Modules/ModuleManager.h"
 
+#define NGHTTP2_SHARED 1
+
 class FFF_HTTP_NGHModule : public IModuleInterface
 {
 public:
@@ -12,7 +14,7 @@ public:
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
 
-#ifdef _WIN64
+#if defined(_WIN64) && NGHTTP2_SHARED == 1
 
 	void* Handle_nghttp2 = nullptr;
 
