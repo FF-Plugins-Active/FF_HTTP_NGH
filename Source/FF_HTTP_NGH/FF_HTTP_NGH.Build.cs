@@ -29,7 +29,6 @@ public class FF_HTTP_NGH : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-                "Projects",
                 "nghttp2",
                 //"ff_nghttp2",
             }

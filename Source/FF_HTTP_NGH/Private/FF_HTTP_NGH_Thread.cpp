@@ -64,10 +64,25 @@ bool FHTTP_Thread_Nghttp2::Toggle(bool bIsPause)
 
 void FHTTP_Thread_Nghttp2::Callback_HTTP_Start()
 {
-	nghttp2_session_callbacks_new(&this->callbacks);
+	auto Callback_Send = [](nghttp2_session* session, const uint8_t* data, size_t length, int flags, void* user_data)->nghttp2_ssize
+		{
+			return length;
+		};
+
+	auto Callback_On_Begin_Headers = [](nghttp2_session* session, const nghttp2_frame* frame, void* user_data)->int
+		{
+			return 0;
+		};
+
+	nghttp2_session_callbacks_new(&this->NGH_Callbacks);
+	nghttp2_session_callbacks_set_send_callback2(this->NGH_Callbacks, Callback_Send);
+	nghttp2_session_callbacks_set_on_begin_headers_callback(this->NGH_Callbacks, Callback_On_Begin_Headers);
+
+	nghttp2_session_server_new(&this->NGH_Session, this->NGH_Callbacks, (void*)this);
 }
 
 void FHTTP_Thread_Nghttp2::Callback_HTTP_Stop()
 {
-
+	nghttp2_session_del(this->NGH_Session);
+	nghttp2_session_callbacks_del(this->NGH_Callbacks);
 }

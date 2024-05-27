@@ -56,6 +56,6 @@ private:
 	FRunnableThread* RunnableThread = nullptr;
 	bool bStartThread = false;
 
-	nghttp2_session_callbacks* callbacks;
-
+	nghttp2_session_callbacks* NGH_Callbacks = nullptr;
+	nghttp2_session* NGH_Session = nullptr;
 };
